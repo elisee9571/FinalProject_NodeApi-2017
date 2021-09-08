@@ -17,13 +17,14 @@ const dbinfo = new Sequelize("db_ecommerce", "root", "", {
         /* nombre de connection */
         max: 5,
         min: 0,
-    }
+    },
 }); // instance de ma base de donnée
 
 // connection à la database
-dbinfo.authenticate()
+dbinfo
+    .authenticate()
     .then(() => {
-        console.log("La connexion a été établie avec succès.")
+        console.log("La connexion a été établie avec succès.");
     })
     .catch((err) => {
         console.error("Impossible de se connecter à la base de données:", err);
@@ -61,76 +62,76 @@ BelongsTo  : permet de creer une association (0/1)
  - Les associations sont utilisées pour connecter des sources avec plusieurs cibles. En outre, les cibles peuvent également avoir des connexions à plusieurs sources.(0/N) */
 
 /** Start Relation **/
-//  1,N ET 0,N - 1/1 
+//  1,N ET 0,N - 1/1
 db.produit.hasMany(db.image, {
-    foreignKey: 'produitId'
+    foreignKey: "produitId",
 }); // produit 1/N image - cas contraire Image 1/1 produit (donc l'Id produit va dans la table image (le N vers le plus petit ))
 db.client.hasMany(db.facture, {
-    foreignKey: 'clientId'
+    foreignKey: "clientId",
 }); // client 1/N facture - cas contraire facture 1/1 client (donc l'Id client va dans la table facture (le N vers le plus petit ))
 db.produit.hasMany(db.facture, {
-    foreignKey: 'produitId'
+    foreignKey: "produitId",
 }); // produit 1/N facture - cas contraire facture 1/1 produit (donc l'Id produit va dans la table facture (le N vers le plus petit ))
 db.client.hasMany(db.livraison, {
-    foreignKey: 'clientId'
+    foreignKey: "clientId",
 }); // client 1/N livraison - cas contraire livraison 1/1 client (donc l'Id client va dans la table livraison (le N vers le plus petit ))
 
 /*table intermediaire*/
 /* entre client et commande */
 db.client.belongsToMany(db.commande, {
     through: "Effectuer",
-    foreignKey: "clientId"
+    foreignKey: "clientId",
 });
 db.commande.belongsToMany(db.client, {
     through: "Effectuer",
-    foreignKey: "commandeId"
+    foreignKey: "commandeId",
 });
 
 /* entre produit et commande */
 db.commande.belongsToMany(db.produit, {
     through: "Contenir",
-    foreignKey: "commandeId"
+    foreignKey: "commandeId",
 });
 db.produit.belongsToMany(db.commande, {
     through: "Contenir",
-    foreignKey: "produitId"
+    foreignKey: "produitId",
 });
 
 /* entre commande et paiement */
 db.paiement.belongsToMany(db.commande, {
     through: "Payer",
-    foreignKey: "paiementId"
+    foreignKey: "paiementId",
 });
 db.commande.belongsToMany(db.paiement, {
     through: "Payer",
-    foreignKey: "commandeId"
+    foreignKey: "commandeId",
 });
 
 /* entre paiement et livraison */
 db.livraison.belongsToMany(db.paiement, {
     through: "Creer",
-    foreignKey: "livraisonId"
+    foreignKey: "livraisonId",
 });
 db.paiement.belongsToMany(db.livraison, {
     through: "Creer",
-    foreignKey: "paiementId"
+    foreignKey: "paiementId",
 });
 
 /* entre paiement et facture */
 db.paiement.belongsToMany(db.facture, {
     through: "Recevoir",
-    foreignKey: "paiementId"
+    foreignKey: "paiementId",
 });
 db.facture.belongsToMany(db.paiement, {
     through: "Recevoir",
-    foreignKey: "factureId"
+    foreignKey: "factureId",
 });
 
 // Fait reference a l'instance de la base de données
 db.dbinfo = dbinfo;
 db.Sequelize = Sequelize;
 
-// Attention à mettre toujours en commentaire car ils synchronise la base de donnée !!!
+// Attention à mettre toujours en commentaire car il synchronise la base de donnée !!!
 //dbinfo.sync({ force: true });
 
 module.exports = db;

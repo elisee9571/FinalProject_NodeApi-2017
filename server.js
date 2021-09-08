@@ -1,8 +1,8 @@
 /** Start Require modules 
-Express.js (librairie) est un framework pour créer des applications Web basées sur Node.js.*/
+Express.js (librairie) est un framework pour créer des applications http Web basées sur Node.js.*/
 const Express = require("express");
 
-/**Le partage de ressources inter-origines (CORS) est un mécanisme qui consiste à ajouter des en-têtes HTTP afin de 
+/**Le partage de ressources inter-origines (CORS) est un mécanisme qui consiste à ajouter des en-têtes HTTP afin de
  * permettre à un agent utilisateur d'accéder à des ressources d'un serveur situé sur une autre origine que le site courant.*/
 const cors = require("cors");
 
@@ -15,7 +15,7 @@ const BodyParser = require("body-parser");
 const hostname = "localhost";
 
 /* le port où vous pouvez appeler pour utiliser votre serveur en local */
-var port = 3000;
+var port = process.env.PORT || 3000;
 
 var app = Express();
 
@@ -41,5 +41,7 @@ app.use("/", require("./router/nodemailer"));
 /* nous disons à notre application de commencer à écouter dans le port 
    et de nous renvoyer le msg avec les informations du port */
 app.listen(port, hostname, function() {
-    console.log("Mon server fonctionne sur http://" + hostname + ":" + port + "\n");
+    console.log(
+        "Mon server fonctionne sur http://" + hostname + ":" + port + "\n"
+    );
 });

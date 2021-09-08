@@ -5,20 +5,18 @@ const router = express.Router();
 router.post("/sendmail", (req, res) => {
     var nodemailer = require("nodemailer");
     var transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
-        port: '587',
+        host: "smtp.gmail.com",
+        port: "587",
         service: "gmail",
         auth: {
             user: "eltest2node@gmail.com",
-            pass: "Eltest2nodemailer"
-
+            pass: "Eltest2nodemailer",
         },
-        secureConnection: 'false',
+        secure: "false",
         tls: {
-            ciphers: 'SSLv3',
-            rejectUnauthorized: false
-        }
-
+            ciphers: "SSLv3",
+            rejectUnauthorized: false,
+        },
     });
     var mailOptions = {
         from: "eltest2node@gmail.com",
@@ -34,28 +32,25 @@ router.post("/sendmail", (req, res) => {
             console.log("email sent" + info.response);
             res.json("email sent" + info.response);
         }
-    })
-
+    });
 });
 
 /* cette route permet de recevoir toute sorte de mail */
 router.post("/receivemail", (req, res) => {
     var nodemailer = require("nodemailer");
     var transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
-        port: '587',
+        host: "smtp.gmail.com",
+        port: "587",
         service: "gmail",
         auth: {
             user: "eltest2node@gmail.com",
-            pass: "Eltest2nodemailer"
-
+            pass: "Eltest2nodemailer",
         },
-        secureConnection: 'false',
+        secureConnection: "false",
         tls: {
-            ciphers: 'SSLv3',
-            rejectUnauthorized: false
-        }
-
+            ciphers: "SSLv3",
+            rejectUnauthorized: false,
+        },
     });
     var mailOptions = {
         from: req.body.email,
@@ -71,8 +66,7 @@ router.post("/receivemail", (req, res) => {
             console.log("email sent" + info.response);
             res.json("email sent" + info.response);
         }
-    })
-
+    });
 });
 
 module.exports = router;
