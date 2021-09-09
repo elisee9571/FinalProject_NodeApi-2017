@@ -4,21 +4,25 @@ const Sequelize = require("sequelize");
 // db est un objet
 const db = {};
 
-// new Sequelize crée une instance qui permet la connection à la base de donnée (qu'on a nommé "db_ecommerce")
-const dbinfo = new Sequelize("db_ecommerce", "root", "", {
-    host: "localhost",
-    /* Son rôle est d'associer des noms d'hôtes à des adresses IP. */
-    dialect: "mysql",
-    /* Hibernate utilise la configuration "dialecte" pour savoir quelle base de données vous utilisez */
-    port: 3306,
-    /* 3306, serveur de base de données MySQL */
-    pool: {
-        /* Un pool désigne un ensemble de ressources réutilisables, géré de façon commune pour un ensemble d'usagers */
-        /* nombre de connection */
-        max: 5,
-        min: 0,
-    },
-}); // instance de ma base de donnée
+// new Sequelize crée une instance qui permet la connection à la base de donnée
+const dbinfo = new Sequelize(
+    "heroku_33774d0350e2cb3",
+    "b78f44d56dc70f",
+    "828b517a", {
+        host: "eu-cdbr-west-01.cleardb.com",
+        /* Son rôle est d'associer des noms d'hôtes à des adresses IP. */
+        dialect: "mysql",
+        /* Hibernate utilise la configuration "dialecte" pour savoir quelle base de données vous utilisez */
+        port: 3306,
+        /* 3306, serveur de base de données MySQL */
+        pool: {
+            /* Un pool désigne un ensemble de ressources réutilisables, géré de façon commune pour un ensemble d'usagers */
+            /* nombre de connection */
+            max: 5,
+            min: 0,
+        },
+    }
+); // instance de ma base de donnée
 
 // connection à la database
 dbinfo
