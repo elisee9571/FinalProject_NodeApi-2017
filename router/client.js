@@ -98,10 +98,10 @@ router.post("/forgetpassword", (req, res) => {
                                 pass: "Eltest2nodemailer",
                             },
                             secureConnection: "false",
-                            /* tls: {
-                                              ciphers: "SSLv3",
-                                              rejectUnauthorized: false,
-                                          }, */
+                            tls: {
+                                ciphers: "SSLv3",
+                                rejectUnauthorized: false,
+                            },
                         });
                         var mailOptions = {
                             from: "eltest2node@gmail.com",
@@ -206,7 +206,6 @@ router.post("/validemail", (req, res) => {
 
 /* cette route permet à l'utilisateur de ce connecter avec ses identifiants */
 router.post("/login", (req, res) => {
-    console.log();
     db.client
         .findOne({
             where: {
@@ -220,6 +219,7 @@ router.post("/login", (req, res) => {
                         id: client.id,
                         nom: client.nom,
                         email: client.email,
+                        password: client.password,
                         adresse: client.adresse,
                         ville: client.ville,
                         cp: client.cp,
@@ -257,7 +257,18 @@ router.get("/profil/:id", (req, res) => {
         })
         .then((client) => {
             if (client) {
-                let token = jwt.sign(client.dataValues, process.env.SECRET_KEY, {
+                let clientdata = {
+                    id: client.id,
+                    nom: client.nom,
+                    email: client.email,
+                    password: client.password,
+                    adresse: client.adresse,
+                    ville: client.ville,
+                    cp: client.cp,
+                    pays: client.pays,
+                    tel: client.tel,
+                };
+                let token = jwt.sign(clientdata, process.env.SECRET_KEY, {
                     expiresIn: 1800, // 30min
                 });
                 res.status(200).json({
@@ -285,7 +296,6 @@ router.put("/update/:id", (req, res) => {
                 client
                     .update(req.body)
                     .then((clientitem) => {
-                        console.log(clientitem);
                         db.client
                             .findOne({
                                 where: {
@@ -293,12 +303,20 @@ router.put("/update/:id", (req, res) => {
                                 },
                             })
                             .then((client) => {
-                                let token = jwt.sign(
-                                    client.dataValues,
-                                    process.env.SECRET_KEY, {
-                                        expiresIn: 1800, // 30min
-                                    }
-                                );
+                                let clientdata = {
+                                    id: client.id,
+                                    nom: client.nom,
+                                    email: client.email,
+                                    password: client.password,
+                                    adresse: client.adresse,
+                                    ville: client.ville,
+                                    cp: client.cp,
+                                    pays: client.pays,
+                                    tel: client.tel,
+                                };
+                                let token = jwt.sign(clientdata, process.env.SECRET_KEY, {
+                                    expiresIn: 1800, // 30min
+                                });
                                 res.status(200).json({
                                     token: token,
                                 });

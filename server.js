@@ -41,7 +41,5 @@ app.use("/", require("./router/nodemailer"));
 /* nous disons à notre application de commencer à écouter dans le port 
    et de nous renvoyer le msg avec les informations du port */
 app.listen(port, hostname, function() {
-    console.log(
-        "Mon server fonctionne sur http://" + hostname + ":" + port + "\n"
-    );
+    console.log(`Mon server fonctionne sur http://${hostname}:${port}/\n`);
 });
